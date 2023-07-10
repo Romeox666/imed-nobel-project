@@ -1,13 +1,17 @@
 import React from "react";
-import "./App.css";
 import Header from "./Components/Header";
+import Filter from "./Components/Filter";
+import Detail from "./Components/Detail";
 
 function App() {
-
   return (
     <>
       <div>
-        <Header />
+          <Header />
+          <div className="flex">
+          <Filter />
+          <Detail />
+          </div>
       </div>
     </>
   );
