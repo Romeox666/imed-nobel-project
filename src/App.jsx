@@ -8,7 +8,7 @@ function App() {
     <>
       <div>
           <Header />
-          <div className="flex">
+          <div className="flex flex-col md:flex-row">
           <Filter />
           <Detail />
           </div>
