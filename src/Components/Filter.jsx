@@ -3,7 +3,7 @@ import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
 import axios from "axios";
 
-const Filter = () => {
+const Filter = (props) => {
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState("");
   const [open, setOpen] = useState(false);
@@ -36,7 +36,10 @@ const Filter = () => {
         );
         setPrizeAmount(totalPrizeAmount);
       });
+      props.handleClick(selectedYear) 
   }
+
+  
 
   return (
     <div className="flex flex-col justify-center items-center h-[90vh] w-auto px-10 bg-gray-900">
