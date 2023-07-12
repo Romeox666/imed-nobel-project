@@ -4,11 +4,10 @@ import { AiOutlineSearch } from "react-icons/ai";
 import axios from "axios";
 
 const Filters = (props) => {
-  
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("");
   const [inputValue, setInputValue] = useState("");
-  
+
   const [years, setYears] = useState([]);
   const [prizeAmount, setPrizeAmount] = useState(0);
   const [selectedYear, setSelectedYear] = useState("");
@@ -33,13 +32,18 @@ const Filters = (props) => {
         `http://api.nobelprize.org/2.1/nobelPrizes?nobelPrizeYear=${selectedYear}`
       )
       .then((res) => {
+        console.log(res)
         const totalPrizeAmount = res.data.nobelPrizes.reduce(
           (sum, prize) => sum + prize.prizeAmount,
           0
         );
         setPrizeAmount(totalPrizeAmount);
         props.loading(false);
-      });
+      })
+      .catch((err) =>{
+        alert("No Data");
+        props.loading(false);
+      })
     props.handleClick(selectedYear);
   }
 
