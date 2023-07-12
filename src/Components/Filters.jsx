@@ -10,6 +10,7 @@ const Filters = (props) => {
 
   const [years, setYears] = useState([]);
   const [prizeAmount, setPrizeAmount] = useState(0);
+  const [nobelprizeList, setNobelprizeList] = useState([]); 
   const [selectedYear, setSelectedYear] = useState("");
 
   useEffect(() => {
@@ -26,29 +27,45 @@ const Filters = (props) => {
   };
 
   async function getAmount() {
-    props.loading(true);
-    await axios
-      .get(
-        `http://api.nobelprize.org/2.1/nobelPrizes?nobelPrizeYear=${selectedYear}`
-      )
-      .then((res) => {
-        console.log(res)
-        const totalPrizeAmount = res.data.nobelPrizes.reduce(
-          (sum, prize) => sum + prize.prizeAmount,
-          0
-        );
-        setPrizeAmount(totalPrizeAmount);
-        props.loading(false);
-      })
-      .catch((err) =>{
-        alert("No Data");
-        props.loading(false);
-      })
+      props.loading(true);
+      await axios
+        .get(
+          `https://api.nobelprize.org/2.1/nobelPrizes?nobelPrizeYear=${selectedYear}`
+        )
+        .then((res) => {
+          const totalPrizeAmount = res.data.nobelPrizes.reduce(
+            (sum, prize) => sum + prize.prizeAmount,
+            0
+          );
+          setPrizeAmount(totalPrizeAmount);
+          props.loading(false);
+
+          setNobelprizeList(res.data.nobelPrizes);
+
+          const a = res.data.nobelPrizes.map((val, index) => {
+              return {
+                key: index,
+                name: val.categoryFullName.en,
+                yaer: val.awardYear,
+                laureates: val.laureates[0],
+                motivation: val.laureates[0].motivation.en,
+              };
+          });
+          props.data(a);
+
+
+        })
+        .catch(error => {
+          alert("No Data");
+          props.data([]);
+          props.loading(false);
+        });
+
     props.handleClick(selectedYear);
   }
 
   return (
-    <div className="flex flex-col justify-center items-center h-[90vh] w-auto px-10 bg-filter">
+    <div className="flex flex-col justify-center items-center h-[90vh] w-full px-10 bg-filter md:w-auto">
       <div className="flex flex-col w-auto md:flex-row ">
         <div className="w-auto font-Inconsolata h-80">
           <div

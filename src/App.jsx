@@ -8,6 +8,7 @@ import { Spinner } from "@material-tailwind/react";
 function App() {
   const [titleYear, setTitleYear] = useState("");
   const [loadings, setLoadings] = useState(false);
+  const [dataList, setDataList] = useState([]); 
 
   const loading = (e) => {
     setLoadings(e);
@@ -15,7 +16,10 @@ function App() {
 
   const handleClick = (e) => {
     setTitleYear(e);
-    console.log(e);
+  };
+
+  const data = (e) => {
+    setDataList(e);
   };
 
   return (
@@ -23,8 +27,8 @@ function App() {
       <div className="relative">
         <Header titleYear={titleYear} />
         <div className="flex flex-col md:flex-row">
-          <Filters handleClick={handleClick} loading={loading} />
-          <Details />
+          <Filters handleClick={handleClick} loading={loading} data={data}/>
+          <Details dataList = {dataList}/>
         </div>
         {loadings ? (
           <div className="absolute left-2/4 top-2/4">
