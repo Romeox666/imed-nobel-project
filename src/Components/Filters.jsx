@@ -3,10 +3,12 @@ import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
 import axios from "axios";
 
-const Filter = (props) => {
-  const [inputValue, setInputValue] = useState("");
-  const [selected, setSelected] = useState("");
+const Filters = (props) => {
+  
   const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  
   const [years, setYears] = useState([]);
   const [prizeAmount, setPrizeAmount] = useState(0);
   const [selectedYear, setSelectedYear] = useState("");
@@ -18,13 +20,14 @@ const Filter = (props) => {
   const fetchYears = async () => {
     const currentYear = new Date().getFullYear();
     const yearsList = Array.from(
-      { length: currentYear - 1900 + 1 },
+      { length: currentYear - 1900 },
       (_, index) => currentYear - index
     );
     setYears(yearsList);
   };
 
-  async function getamount() {
+  async function getAmount() {
+    props.loading(true);
     await axios
       .get(
         `http://api.nobelprize.org/2.1/nobelPrizes?nobelPrizeYear=${selectedYear}`
@@ -35,25 +38,22 @@ const Filter = (props) => {
           0
         );
         setPrizeAmount(totalPrizeAmount);
+        props.loading(false);
       });
-      props.handleClick(selectedYear) 
+    props.handleClick(selectedYear);
   }
 
-  
-
   return (
-    <div className="flex flex-col justify-center items-center h-[90vh] w-auto px-10 bg-gray-900">
-      <div className="flex flex-row w-auto">
-        <div className="w-auto font-medium h-80">
+    <div className="flex flex-col justify-center items-center h-[90vh] w-auto px-10 bg-filter">
+      <div className="flex flex-col w-auto md:flex-row ">
+        <div className="w-auto font-Inconsolata h-80">
           <div
             onClick={() => setOpen(!open)}
             className={`bg-white w-full p-2 flex items-center justify-between rounded ${
-              !selected && "text-gray-700 font-mono"
+              !selected && "text-gray-700 font-Inconsolata"
             }`}
           >
-            {selectedYear 
-                ? selectedYear
-              : "Select Years"}
+            {selectedYear ? selectedYear : "Select Years"}
             <BiChevronDown size={20} className={`${open && "rotate-180"}`} />
           </div>
           <ul
@@ -67,15 +67,15 @@ const Filter = (props) => {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value.toString())}
-                placeholder="Enter A.D."
-                className="placeholder:text-gray-700 p-2 outline-none font-mono"
+                placeholder="Enter Years"
+                className="placeholder:text-gray-700 p-2 outline-none font-Inconsolata"
               />
             </div>
 
             {years.map((year, index) => (
               <li
                 key={index}
-                className={`p-4 font-mono text-sm hover:bg-sky-600 hover:text-white
+                className={`p-4 font-Inconsolata text-sm hover:bg-gray-400 hover:text-black cursor-pointer
             ${
               year.toString() === selected?.toString() &&
               "bg-sky-600 text-white"
@@ -95,15 +95,15 @@ const Filter = (props) => {
         </div>
         <div>
           <button
-            onClick={getamount}
-            className="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 ml-2 h-10 w-20 rounded "
+            onClick={getAmount}
+            className="bg-dark-gold hover:bg-gold text-white h-10 w-20 font-Inconsolata ml-20 mb-8 rounded md:py-2 md:px-4 md:ml-2 "
           >
             Apply
           </button>
         </div>
       </div>
       <div className="bg-white p-2 rounded-xl">
-        <p className="text-black font-mono">
+        <p className="text-black font-Inconsolata">
           Total prizeAmount : {prizeAmount}
         </p>
       </div>
@@ -111,4 +111,4 @@ const Filter = (props) => {
   );
 };
 
-export default Filter;
+export default Filters;

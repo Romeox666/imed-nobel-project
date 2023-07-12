@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,10 +9,19 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        Rampart: ["Rampart One", "cursive"],
         Thai: ["IBM Plex Sans Thai Looped"],
+        Monoton: ["Monoton"],
+        Inconsolata: ["Inconsolata"],
        },
+       colors: {
+        transparent: 'transparent',
+        current: 'currentColor',
+        'header': '#EAEAEA',
+        'filter' : '#231F20',
+        'dark-gold' : '#8E793E',
+        'gold' : '#AD974F',     
+      },
     },
   },
   plugins: [],
-}
+});
