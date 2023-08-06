@@ -119,7 +119,7 @@ const Filters = (props) => {
             onClick={getAmount}
             className="bg-dark-gold hover:bg-gold text-white h-10 w-20 font-Inconsolata ml-20 mb-8 rounded md:py-2 md:px-4 md:ml-2 "
           >
-            Apply
+            Applyhyhhhhh
           </button>
         </div>
       </div>
